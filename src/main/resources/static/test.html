@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理系统</title>
+</head>
+<body>
+
+<button onclick="insert()">新增数据</button>
+<label>请输入学生学号<input id="input_id" name="input_id" type="text" /></label>
+<label>请输入学生姓名<input id="input_name" name="input_name" type="text" /></label>
+<label>请输入学生电话<input id="input_phone" name="input_phone" type="text" /></label>
+</br>
+
+<button onclick="selectAll()">显示数据</button>
+
+</br>
+
+<button onclick="selectStudent()">查询数据</button>
+<label>请输入学生学号<input id="id" name="id" type="text" /></label>
+<label>请输入学生姓名<input id="name" name="name" type="text" /></label>
+
+
+</p>
+<textarea></textarea>
+
+
+<script type="text/javascript" src="jquery-3.4.1.js" ></script>
+
+<script type="text/javascript">
+function selectAll(){
+    $.ajax({
+        type:"get",
+        url:"http://localhost:8081/selectAll",
+        contentType:"application/json;charset=utf-8",
+        dataType:"json",
+        success:function(data){
+            document.querySelector('textarea').innerText=JSON.stringify(data);
+        },
+        error:function(data){
+            //document.querySelector('textarea').innerText=JSON.stringify(data);
+            alert("查询失败");
+        }
+    });
+}
+</script>
+
+<script type="text/javascript">
+    function insert(){
+        $.ajax({
+            type:"get",
+            url:"http://localhost:8081/insertStudent",
+            data:{
+                id:$(" #input_id ").val(),
+                name:$(" #input_name ").val(),
+                phone:$(" #input_phone ").val()
+            },
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function(data){
+                //document.querySelector('textarea').innerText=JSON.stringify(data);
+                alert("插入失败");
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function selectStudent(){
+        $.ajax({
+            type:"get",
+            url:"http://localhost:8081/selectStudent",
+            data:{
+                id:$(" #id ").val(),
+                name:$(" #name ").val()
+            },
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function(data){
+               // document.querySelector('textarea').innerText=JSON.stringify(data);
+                alert("查询失败");
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>
