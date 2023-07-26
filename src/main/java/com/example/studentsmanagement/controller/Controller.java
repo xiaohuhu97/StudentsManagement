@@ -1,9 +1,6 @@
 package com.example.studentsmanagement.controller;
 
-import com.example.studentsmanagement.entity.Course;
-import com.example.studentsmanagement.entity.Score;
-import com.example.studentsmanagement.entity.Stu_Sco;
-import com.example.studentsmanagement.entity.Student;
+import com.example.studentsmanagement.entity.*;
 import com.example.studentsmanagement.mapper.CourseMapper;
 import com.example.studentsmanagement.mapper.ScoreMapper;
 import com.example.studentsmanagement.mapper.StudentMapper;
@@ -25,29 +22,29 @@ public class Controller {
     @Autowired
     ScoreMapper scoreMapper;
 
-
+    //显示所有学生
     @RequestMapping("/selectAll")
     public List<Student> selectAll()
     {
         return studentMapper.selectList(null);
-        //return studentMapper.select1();
     }
-    //显示学生
-    //指定查询
-    //指定学生查询（姓名，学号）+指定科目
-    @RequestMapping("/selectStudent")
-    public List<Stu_Sco> selectStudent(String id, String name)
-    {
 
-        //System.out.println("can i see it?"+"    id:"+id+"    name:"+name);
-//        List<Stu_Sco> stu_scos=studentMapper.selectStudent(id);
-//        for (Stu_Sco item : stu_scos) {
-//            System.out.println(item.id+"   "+item.name+"   "+item.course_name+"   "+item.score);
-//        }
-        return studentMapper.selectStudent(id);
+    //指定学生查询（学号）+指定科目
+    @RequestMapping("/selectStudent")
+    public List<Stu_Sco> selectStudent(String id, String course_name)
+    {
+        if(course_name=="")
+            return studentMapper.selectStudentById(id);
+        else
+            return studentMapper.selectStudentByCourse(id, course_name);
     }
     //指定老师查询+指定科目
 
+    @RequestMapping("/selectTeacher")
+    public List<Tea_Sco> selectTeacher(String teacher_name)
+    {
+        return studentMapper.selectTeacher(teacher_name);
+    }
     //新增学生信息
     @RequestMapping("/insertStudent")
     public String insertStudent(String id,String name,String phone)
@@ -57,9 +54,9 @@ public class Controller {
 
     //新增课程信息
     @RequestMapping("/insertCourse")
-    public String insertCourse(String id,String name,String teacher)
+    public String insertCourse(String course_id,String course_name,String teacher_name)
     {
-        return courseMapper.insert(new Course(id,name,teacher))>0?"success":"fail";
+        return courseMapper.insert(new Course(course_id,course_name,teacher_name))>0?"success":"fail";
     }
 
     //新增成绩信息

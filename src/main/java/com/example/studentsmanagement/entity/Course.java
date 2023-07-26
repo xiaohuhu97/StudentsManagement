@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @TableName("course_info")
 public class Course {
 
-    private String course_id;
-    private String course_name;
-    private String teacher_name;
+    public String course_id;
+    public String course_name;
+    public String teacher_name;
 }

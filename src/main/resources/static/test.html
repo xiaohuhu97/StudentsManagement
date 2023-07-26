@@ -6,20 +6,35 @@
 </head>
 <body>
 
-<button onclick="insert()">新增数据</button>
-<label>请输入学生学号<input id="input_id" name="input_id" type="text" /></label>
-<label>请输入学生姓名<input id="input_name" name="input_name" type="text" /></label>
-<label>请输入学生电话<input id="input_phone" name="input_phone" type="text" /></label>
+<button onclick="insertStudent()">新增学生数据</button>
+<label>学生学号<input id="input_id" name="input_id" type="text" /></label>
+<label>学生姓名<input id="input_name" name="input_name" type="text" /></label>
+<label>学生电话<input id="input_phone" name="input_phone" type="text" /></label>
 </br>
 
-<button onclick="selectAll()">显示数据</button>
+<button onclick="insertCourse()">新增课程数据</button>
+<label>课程号<input id="input_course_id" name="input_course_id" type="text" /></label>
+<label>课程名称<input id="input_course_name" name="input_course_name" type="text" /></label>
+<label>老师名称<input id="input_teacher" name="input_teacher" type="text" /></label>
+</br>
+
+<button onclick="insertScore()">新增成绩数据</button>
+<label>学生学号<input id="input_id1" name="input_id1" type="text" /></label>
+<label>  课程号<input id="input_course_id1" name="input_course_id1" type="text" /></label>
+<label>   成绩<input id="input_score" name="input_score" type="text" /></label>
+</br>
+
+<button onclick="selectAll()">显示学生数据</button>
 
 </br>
 
-<button onclick="selectStudent()">查询数据</button>
-<label>请输入学生学号<input id="id" name="id" type="text" /></label>
-<label>请输入学生姓名<input id="name" name="name" type="text" /></label>
+<button onclick="selectStudent()">查询学生成绩</button>
+<label>学生学号<input id="id" name="id" type="text" /></label>
+<label>课程名称<input id="course_name" name="course_name" type="text" /></label>
 
+</br>
+<button onclick="selectTeacher()">查询老师成绩</button>
+<label>老师名称<input id="teacher" name="teacher" type="text" /></label>
 
 </p>
 <textarea></textarea>
@@ -46,7 +61,49 @@ function selectAll(){
 </script>
 
 <script type="text/javascript">
-    function insert(){
+    function selectStudent(){
+        $.ajax({
+            type:"get",
+            url:"http://localhost:8081/selectStudent",
+            data:{
+                id:$(" #id ").val(),
+                course_name:$(" #course_name ").val()
+            },
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+                alert("查询失败");
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function selectTeacher(){
+        $.ajax({
+            type:"get",
+            url:"http://localhost:8081/selectTeacher",
+            data:{
+                teacher_name:$(" #teacher ").val()
+            },
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function(data){
+                alert("查询失败");
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function insertStudent(){
         $.ajax({
             type:"get",
             url:"http://localhost:8081/insertStudent",
@@ -61,7 +118,7 @@ function selectAll(){
                 document.querySelector('textarea').innerText=JSON.stringify(data);
             },
             error:function(data){
-                //document.querySelector('textarea').innerText=JSON.stringify(data);
+                document.querySelector('textarea').innerText=JSON.stringify(data);
                 alert("插入失败");
             }
         });
@@ -69,13 +126,14 @@ function selectAll(){
 </script>
 
 <script type="text/javascript">
-    function selectStudent(){
+    function insertCourse(){
         $.ajax({
             type:"get",
-            url:"http://localhost:8081/selectStudent",
+            url:"http://localhost:8081/insertCourse",
             data:{
-                id:$(" #id ").val(),
-                name:$(" #name ").val()
+                course_id:$(" #input_course_id ").val(),
+                course_name:$(" #input_course_name ").val(),
+                teacher_name:$(" #input_teacher ").val()
             },
             contentType:"application/json;charset=utf-8",
             dataType:"json",
@@ -83,12 +141,35 @@ function selectAll(){
                 document.querySelector('textarea').innerText=JSON.stringify(data);
             },
             error:function(data){
-               // document.querySelector('textarea').innerText=JSON.stringify(data);
-                alert("查询失败");
+                alert("插入失败");
             }
         });
     }
 </script>
+
+<script type="text/javascript">
+    function insertScore(){
+        $.ajax({
+            type:"get",
+            url:"http://localhost:8081/insertScore",
+            data:{
+                id:$(" #input_id1 ").val(),
+                course_id:$(" #input_course_id1 ").val(),
+                score:$(" #input_score ").val()
+            },
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function(data){
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+                alert("插入失败");
+            }
+        });
+    }
+</script>
+
 
 
 </body>

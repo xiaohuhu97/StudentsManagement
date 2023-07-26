@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("score_info")
 public class Score {
-    private String id;
-    private String course_name;
-    private float score;
+    public String id;
+    public String course_id;
+    public float score;
 }
